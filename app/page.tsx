@@ -73,7 +73,6 @@ const PROJECTS = [
     screenshots: [
       "/assets/bmp-1.png",
       "/assets/bmp-2.png",
-      "/assets/bmp-3.png",
       "/assets/bmp-4.png",
       "/assets/bmp-5.png"
     ],
