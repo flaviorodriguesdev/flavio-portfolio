@@ -62,7 +62,7 @@ const PROJECTS = [
     tech: ["JavaScript", "HTML", "CSS", "Python"],
     screenshots: ["/assets/measure-1.png", "/assets/measure-2.png"], // Confirma a extensão das tuas prints do Measure!
     live: "", 
-    github: "https://github.com/FlavioRodrigues/measure-pro"
+    github: "https://github.com/flaviorodriguesdev/software3dobragemdearame"
   },
   {
     id: "bmp",
