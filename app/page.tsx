@@ -172,7 +172,7 @@ export default function Portfolio() {
             </button>
 
             <div className="flex gap-5 px-4 border-l border-neutral-800 pl-6">
-              <a href="https://github.com/FlavioRodrigues" target="_blank" className="text-neutral-500 hover:text-white transition-all hover:scale-110"><FaGithub className="h-6 w-6" /></a>
+              <a href="https://github.com/flaviorodriguesdev" target="_blank" className="text-neutral-500 hover:text-white transition-all hover:scale-110"><FaGithub className="h-6 w-6" /></a>
               <a href="https://linkedin.com/" target="_blank" className="text-neutral-500 hover:text-white transition-all hover:scale-110"><FaLinkedin className="h-6 w-6" /></a>
             </div>
           </div>
