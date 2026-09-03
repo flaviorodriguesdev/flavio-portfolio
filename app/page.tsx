@@ -277,7 +277,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* 5. CONTACT */}
+     {/* 5. CONTACT */}
       <section id="contact" className="relative py-40 px-4 flex flex-col items-center justify-center overflow-hidden min-h-screen z-10">
         
         <div className="w-full max-w-5xl relative z-10 flex flex-col md:flex-row items-center gap-12">
@@ -301,21 +301,31 @@ export default function Portfolio() {
               Send an email to <a href="mailto:flaviorodrigues.dev@gmail.com" className="text-cyan-500 hover:text-cyan-400 font-medium">flaviorodrigues.dev@gmail.com</a>
             </p>
 
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            {/* FORMULÁRIO COM FORMSUBMIT INTEGRADO */}
+            <form action="https://formsubmit.co/flaviorodrigues.dev@gmail.com" method="POST" className="space-y-6">
+              
+              {/* Configurações ocultas do FormSubmit */}
+              <input type="hidden" name="_subject" value="Novo contacto do teu Portefólio!" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="box" />
+
               <div className="flex flex-col gap-6">
                 <div className="flex-1 space-y-3">
                   <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest">Name</label>
-                  <input type="text" placeholder="Your Name" className="w-full bg-[#111]/80 border border-neutral-800 rounded-xl px-5 py-4 text-white placeholder:text-neutral-700 focus:outline-none focus:border-cyan-500 transition-all" />
+                  {/* Adicionado o atributo 'name="name"' e 'required' */}
+                  <input type="text" name="name" required placeholder="Your Name" className="w-full bg-[#111]/80 border border-neutral-800 rounded-xl px-5 py-4 text-white placeholder:text-neutral-700 focus:outline-none focus:border-cyan-500 transition-all" />
                 </div>
                 <div className="flex-1 space-y-3">
                   <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest">Email</label>
-                  <input type="email" placeholder="you@example.com" className="w-full bg-[#111]/80 border border-neutral-800 rounded-xl px-5 py-4 text-white placeholder:text-neutral-700 focus:outline-none focus:border-cyan-500 transition-all" />
+                  {/* Adicionado o atributo 'name="email"' e 'required' */}
+                  <input type="email" name="email" required placeholder="you@example.com" className="w-full bg-[#111]/80 border border-neutral-800 rounded-xl px-5 py-4 text-white placeholder:text-neutral-700 focus:outline-none focus:border-cyan-500 transition-all" />
                 </div>
               </div>
 
               <div className="space-y-3">
                 <label className="text-xs font-bold text-neutral-500 uppercase tracking-widest">Message</label>
-                <textarea placeholder="How can I help you?" rows={4} className="w-full bg-[#111]/80 border border-neutral-800 rounded-xl px-5 py-4 text-white placeholder:text-neutral-700 focus:outline-none focus:border-cyan-500 transition-all resize-none"></textarea>
+                {/* Adicionado o atributo 'name="message"' e 'required' */}
+                <textarea name="message" required placeholder="How can I help you?" rows={4} className="w-full bg-[#111]/80 border border-neutral-800 rounded-xl px-5 py-4 text-white placeholder:text-neutral-700 focus:outline-none focus:border-cyan-500 transition-all resize-none"></textarea>
               </div>
 
               <button type="submit" className="w-full bg-white hover:bg-cyan-500 text-black hover:text-white font-black uppercase tracking-widest py-5 rounded-xl flex items-center justify-center gap-3 transition-all group mt-8">
