@@ -138,7 +138,7 @@ export default function Portfolio() {
         />
       </div>
 
-      {/* 1. HERO SECTION */}
+{/* 1. HERO SECTION */}
       <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 overflow-hidden">
         <motion.div 
           initial={{ opacity: 0, y: 50, scale: 0.9 }} 
@@ -156,9 +156,22 @@ export default function Portfolio() {
             Focused on solving problems through AI integration and developing optimized web solutions. Building the digital future from Braga, Portugal.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6">
-            <a href="#projects" className="group flex items-center gap-2 rounded-full bg-white px-8 py-4 font-bold text-black transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.1)]">
+            
+            {/* NOVO BOTÃO DE SCROLL RÁPIDO */}
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                const section = document.getElementById("projects");
+                if (section) {
+                  const y = section.getBoundingClientRect().top + window.scrollY;
+                  window.scrollTo({ top: y, behavior: "smooth" });
+                }
+              }}
+              className="group flex items-center gap-2 rounded-full bg-white px-8 py-4 font-bold text-black transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.1)]"
+            >
               View Projects <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-2" />
-            </a>
+            </button>
+
             <div className="flex gap-5 px-4 border-l border-neutral-800 pl-6">
               <a href="https://github.com/FlavioRodrigues" target="_blank" className="text-neutral-500 hover:text-white transition-all hover:scale-110"><FaGithub className="h-6 w-6" /></a>
               <a href="https://linkedin.com/" target="_blank" className="text-neutral-500 hover:text-white transition-all hover:scale-110"><FaLinkedin className="h-6 w-6" /></a>
