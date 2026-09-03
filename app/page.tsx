@@ -303,41 +303,21 @@ export default function Portfolio() {
 
             <form 
               className="space-y-6" 
-              onSubmit={async (e) => {
+              onSubmit={(e) => {
                 e.preventDefault();
                 const form = e.target as HTMLFormElement;
-                const btn = form.querySelector('button');
-                const originalText = btn?.innerHTML;
-                
-                if (btn) btn.innerHTML = 'Sending...';
-                
                 const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
+                
+                const name = formData.get('name');
+                const email = formData.get('email');
+                const message = formData.get('message');
 
-                try {
-                  const response = await fetch("https://formsubmit.co/ajax/flaviorodrigues.dev@gmail.com", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      "Accept": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                  });
+                // Formata o assunto e o corpo do email
+                const subject = encodeURIComponent(`Novo contacto do Portefólio - ${name}`);
+                const body = encodeURIComponent(`${message}\n\n---\nEnviado por: ${name}\nEmail de contacto: ${email}`);
 
-                  if (response.ok) {
-                    if (btn) btn.innerHTML = 'Message Sent! ✓';
-                    if (btn) btn.classList.add('bg-green-500', 'text-white', 'hover:bg-green-600');
-                    form.reset();
-                    setTimeout(() => {
-                      if (btn && originalText) {
-                        btn.innerHTML = originalText;
-                        btn.classList.remove('bg-green-500', 'text-white', 'hover:bg-green-600');
-                      }
-                    }, 4000);
-                  }
-                } catch (error) {
-                  if (btn) btn.innerHTML = 'Error. Try again.';
-                }
+                // Abre a aplicação de email do utilizador
+                window.location.href = `mailto:flaviorodrigues.dev@gmail.com?subject=${subject}&body=${body}`;
               }}
             >
               <div className="flex flex-col gap-6">
@@ -356,12 +336,8 @@ export default function Portfolio() {
                 <textarea name="message" required placeholder="How can I help you?" rows={4} className="w-full bg-[#111]/80 border border-neutral-800 rounded-xl px-5 py-4 text-white placeholder:text-neutral-700 focus:outline-none focus:border-cyan-500 transition-all resize-none"></textarea>
               </div>
 
-              {/* Anti-Spam Oculto */}
-              <input type="text" name="_honey" style={{ display: 'none' }} />
-              <input type="hidden" name="_captcha" value="false" />
-
               <button type="submit" className="w-full bg-white hover:bg-cyan-500 text-black hover:text-white font-black uppercase tracking-widest py-5 rounded-xl flex items-center justify-center gap-3 transition-all group mt-8">
-                Send <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
+                Send Email <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
               </button>
             </form>
           </motion.div>
