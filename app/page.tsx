@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, X, ExternalLink } from "lucide-react"; 
 import { 
   FaGithub, FaLinkedin, FaPython, FaJava, FaHtml5, FaCss3Alt, FaJs, FaReact, FaNodeJs 
@@ -60,7 +60,7 @@ const PROJECTS = [
     category: "Engineering & Web 3D",
     desc: "An interactive 3D web simulator built for Measure Pro. It allows engineers to test and visualize equipment behavior, simulating manufacturing processes digitally to validate complex industrial requirements.",
     tech: ["JavaScript", "HTML", "CSS", "Python"],
-    screenshots: ["/assets/measure-1.png", "/assets/measure-2.png"], // Confirma a extensão das tuas prints do Measure!
+    screenshots: ["/assets/measure-1.png", "/assets/measure-2.png"],
     live: "", 
     github: "https://github.com/flaviorodriguesdev/software3dobragemdearame"
   },
@@ -81,25 +81,15 @@ const PROJECTS = [
   }
 ];
 
-// --- COMPONENTE DE TÍTULO ANIMADO 3D (PARALLAX + PERSPECTIVE) ---
+// --- COMPONENTE DE TÍTULO OTIMIZADO (SEM 3D PESADO PARA MOBILE) ---
 function AnimatedTitle({ children, className = "" }: { children: React.ReactNode, className?: string }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-  
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
-  const y = useTransform(smoothProgress, [0, 0.5, 1], [150, 0, -250]);
-  const rotateX = useTransform(smoothProgress, [0, 0.5, 1], [45, 0, -45]);
-  const scale = useTransform(smoothProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
-  const opacity = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-
   return (
-    <div style={{ perspective: "1000px" }} className="w-full flex justify-center mb-20 pointer-events-none z-10">
+    <div className="w-full flex justify-center mb-20 pointer-events-none z-10">
       <motion.h2
-        ref={ref}
-        style={{ y, rotateX, scale, opacity, transformOrigin: "center center" }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6 }}
         className={`text-5xl md:text-[7rem] font-black uppercase tracking-tighter text-center text-white drop-shadow-2xl ${className}`}
       >
         {children}
@@ -116,33 +106,21 @@ export default function Portfolio() {
   return (
     <main className="relative bg-[#050505] text-neutral-50 font-sans selection:bg-white/20 overflow-x-hidden">
       
-      {/* FUNDO ANIMADO TRANQUILO */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <motion.div 
-          animate={{ backgroundPosition: ["0px 0px", "64px 64px"] }}
-          transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"
-        />
-        
-        <motion.div
-          animate={{ x: [0, 100, -50, 0], y: [0, -100, 50, 0], scale: [1, 1.2, 0.9, 1] }}
-          transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }}
-          className="absolute top-[10%] left-[20%] w-[600px] h-[600px] bg-cyan-900/10 blur-[150px] rounded-full"
-        />
-
-        <motion.div
-          animate={{ x: [0, -150, 80, 0], y: [0, 120, -80, 0], scale: [1, 0.8, 1.1, 1] }}
-          transition={{ repeat: Infinity, duration: 30, ease: "easeInOut" }}
-          className="absolute bottom-[10%] right-[10%] w-[700px] h-[700px] bg-indigo-900/10 blur-[150px] rounded-full"
-        />
+      {/* FUNDO OTIMIZADO - CSS PURO (CARREGA NUM MILISSEGUNDO) */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#050505]">
+        {/* Grelha técnica suave */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+        {/* Auroras estáticas leves */}
+        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-cyan-900/10 blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-900/10 blur-[120px]"></div>
       </div>
 
-{/* 1. HERO SECTION */}
+      {/* 1. HERO SECTION */}
       <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 overflow-hidden">
         <motion.div 
-          initial={{ opacity: 0, y: 50, scale: 0.9 }} 
+          initial={{ opacity: 0, y: 30, scale: 0.95 }} 
           animate={{ opacity: 1, y: 0, scale: 1 }} 
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="z-10 flex max-w-3xl flex-col items-center text-center"
         >
           <h1 className="mb-6 text-6xl md:text-8xl font-black uppercase tracking-tighter text-white drop-shadow-lg">
@@ -156,7 +134,6 @@ export default function Portfolio() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6">
             
-            {/* NOVO BOTÃO DE SCROLL RÁPIDO */}
             <button 
               onClick={(e) => {
                 e.preventDefault();
@@ -251,15 +228,15 @@ export default function Portfolio() {
       {/* 4. PROJECTS */}
       <section id="projects" className="py-32 px-4 max-w-6xl mx-auto min-h-screen flex flex-col justify-center relative z-10">
         <AnimatedTitle>Projects</AnimatedTitle>
-        <div className="grid md:grid-cols-2 gap-8 relative z-10" style={{ perspective: "1500px" }}>
+        <div className="grid md:grid-cols-2 gap-8 relative z-10">
           {PROJECTS.map((proj) => (
             <motion.div 
               key={proj.id} 
-              initial={{ opacity: 0, rotateX: 20, y: 50 }} 
-              whileInView={{ opacity: 1, rotateX: 0, y: 0 }} 
+              initial={{ opacity: 0, y: 50 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true, margin: "-50px" }}
-              whileHover={{ scale: 1.02, rotateY: -2, rotateX: 2 }} 
-              transition={{ duration: 0.6 }}
+              whileHover={{ scale: 1.02 }} 
+              transition={{ duration: 0.4 }}
               onClick={() => setSelectedProject(proj)}
               className="group cursor-pointer rounded-3xl overflow-hidden bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-900 hover:border-cyan-500/30"
             >
@@ -276,7 +253,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-{/* 5. CONTACT */}
+      {/* 5. CONTACT */}
       <section id="contact" className="relative py-40 px-4 flex flex-col items-center justify-center overflow-hidden min-h-screen z-10">
         
         <div className="w-full max-w-5xl relative z-10 flex flex-col md:flex-row items-center gap-12">
@@ -313,7 +290,6 @@ export default function Portfolio() {
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
                 
-                // Cola a tua chave do Web3Forms aqui
                 data.access_key = "df3943f4-d433-4ae4-a82e-6542b10d4dac";
 
                 try {
