@@ -303,21 +303,44 @@ export default function Portfolio() {
 
             <form 
               className="space-y-6" 
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
                 const form = e.target as HTMLFormElement;
-                const formData = new FormData(form);
+                const btn = form.querySelector('button');
+                const originalText = btn?.innerHTML;
                 
-                const name = formData.get('name');
-                const email = formData.get('email');
-                const message = formData.get('message');
+                if (btn) btn.innerHTML = 'Sending...';
+                
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                
+                // Cola a tua chave do Web3Forms aqui
+                data.access_key = "df3943f4-d433-4ae4-a82e-6542b10d4dac";
 
-                // Formata o assunto e o corpo do email
-                const subject = encodeURIComponent(`Novo contacto do Portefólio - ${name}`);
-                const body = encodeURIComponent(`${message}\n\n---\nEnviado por: ${name}\nEmail de contacto: ${email}`);
+                try {
+                  const response = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Accept": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                  });
 
-                // Abre a aplicação de email do utilizador
-                window.location.href = `mailto:flaviorodrigues.dev@gmail.com?subject=${subject}&body=${body}`;
+                  if (response.ok) {
+                    if (btn) btn.innerHTML = 'Message Sent! ✓';
+                    if (btn) btn.classList.add('bg-green-500', 'text-white', 'hover:bg-green-600');
+                    form.reset();
+                    setTimeout(() => {
+                      if (btn && originalText) {
+                        btn.innerHTML = originalText;
+                        btn.classList.remove('bg-green-500', 'text-white', 'hover:bg-green-600');
+                      }
+                    }, 4000);
+                  }
+                } catch (error) {
+                  if (btn) btn.innerHTML = 'Error. Try again.';
+                }
               }}
             >
               <div className="flex flex-col gap-6">
@@ -337,7 +360,7 @@ export default function Portfolio() {
               </div>
 
               <button type="submit" className="w-full bg-white hover:bg-cyan-500 text-black hover:text-white font-black uppercase tracking-widest py-5 rounded-xl flex items-center justify-center gap-3 transition-all group mt-8">
-                Send Email <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
+                Send <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
               </button>
             </form>
           </motion.div>
