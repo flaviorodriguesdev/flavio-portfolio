@@ -77,7 +77,7 @@ const PROJECTS = [
       "/assets/bmp-4.png",
       "/assets/bmp-5.png"
     ],
-    live: "https://bmpautomoveis.com",
+    live: "https://bmpautomoveis.pt",
     github: ""
   }
 ];
